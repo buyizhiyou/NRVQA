@@ -47,7 +47,6 @@ train_x, test_x, train_y, test_y = train_test_split(
 print("begin training...")
 begin = time.time()
 param_grid = [
-    {'C': [1, 10, 100], 'kernel': ['linear']},
     {'C': [1, 10, 100], 'gamma': [
         0.01, 0.001, 0.0001], 'kernel': ['rbf']},
 ]
