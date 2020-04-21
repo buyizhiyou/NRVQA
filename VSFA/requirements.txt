@@ -1,0 +1,12 @@
+argparse==1.4.0
+h5py==2.10.0
+PyYAML==5.1.2
+Pillow==6.2.1
+scikit-video==1.1.11
+numpy==1.17.3
+scipy==1.0.1
+torch==1.1.0
+torchvision==0.3.0
+pytorch-ignite==0.2.1
+tensorflow-gpu==1.0.0
+tensorboardX==1.2
