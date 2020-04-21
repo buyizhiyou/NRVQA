@@ -1,17 +1,14 @@
-import numpy as np
-import scipy.misc
-import scipy.io
-from os.path import dirname
-from os.path import join
-import scipy
-from skimage import transform
-from PIL import Image
-import numpy as np
-import scipy.ndimage
-import numpy as np
-import scipy.special
 import math
+from os.path import dirname, join
+
 import cv2
+import numpy as np
+import scipy
+import scipy.io
+import scipy.misc
+import scipy.ndimage
+import scipy.special
+from PIL import Image
 
 gamma_range = np.arange(0.2, 10, 0.001)
 a = scipy.special.gamma(2.0/gamma_range)
@@ -211,6 +208,8 @@ def niqe(inputImgData):
     pop_mu = np.ravel(params["pop_mu"])
     pop_cov = params["pop_cov"]
 
+    if inputImgData.ndim == 3:
+        inputImgData = cv2.cvtColor(inputImgData, cv2.COLOR_BGR2GRAY)
     M, N = inputImgData.shape
 
     # assert C == 1, "niqe called with videos containing %d channels. Please supply only the luminance channel" % (C,)

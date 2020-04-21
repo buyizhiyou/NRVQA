@@ -1,4 +1,4 @@
-# 无参考视频质量评价(No-Reference Blind Video Quality Assessment)
+# 无参考图片/视频质量评价(No-Reference Blind Video Quality Assessment)
 
 ## 深度学习
 
@@ -8,8 +8,34 @@
 
 ## 传统方法
 
-- BRISQUE
+- BRISQUE(**extract 36 dimesion brisque features,you can train svr model in labeled datasets like TID2013/LIVE/CSIQ**)
 - NIQE
 - PIQE
 
-这方面的相关论文[reference](https://github.com/buyizhiyou/papers/tree/master/VQA_IQA)
+
+## test
+
+### brisque
+*high score has high quality*
+```
+python test.py --mode brisque --path=imgs/origin.jpg
+python test.py --mode brisque --path=imgs/compression.jpg
+```
+### niqe
+*high score has low quality*
+```
+python test.py --mode niqe --path=imgs/origin.jpg
+python test.py --mode niqe --path=imgs/compression.jpg
+```
+### piqe
+*high score has low quality*
+```
+python test.py --mode piqe --path=imgs/origin.jpg
+python test.py --mode piqe --path=imgs/compression.jpg
+```
+  
+
+
+
+
+## 相关论文[reference papers](https://github.com/buyizhiyou/papers/tree/master/VQA_IQA)

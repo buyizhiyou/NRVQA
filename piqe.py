@@ -198,9 +198,6 @@ def piqe(im):
     Scores = [(s*10*lowSum)/Sum for s in BlockScores]
     C = 1
     Score = ((sum(Scores) + C)/(C + NHSA))*100
-    if Score < 1:
-        import pdb
-        pdb.set_trace()
 
     # if input image is padded then remove those portions from ActivityMask,
     # NoticeableArtifactsMask and NoiseMask and ensure that size of these masks
