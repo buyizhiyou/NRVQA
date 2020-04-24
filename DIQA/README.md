@@ -4,7 +4,7 @@ Download dataset LIVE and put into `LIVE` folder,run command below to train your
 python DIQA.py 
 ```
 # test 
-In the `models` folder, there is a model I traied and you can run command below to test your images or videos.
+In the `models` folder, there is a model I trained and you can run command below to test your images or videos.
 ```
 python predict_img.py --imgpath=../imgs/origin.jpg
 python predict_video.py --videopath=./your/own/videopath
