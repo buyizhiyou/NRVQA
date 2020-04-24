@@ -1,23 +1,23 @@
 import argparse
 import os
+import pdb
 import shutil
 import time
+import warnings
 
-import pdb
+import cv2
+import scipy.io as sio
+import skvideo.io
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
 from PIL import Image
-import scipy.io as sio
-from sklearn.svm import SVR
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
 from sklearn.externals import joblib
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.svm import SVR
+
 from comm_model import *
-import skvideo.io
-import argparse
-import warnings
 
 svr_save_path = './trained_models/svr_mode.pkl'
 svr_process_path = './trained_models/svr_process.pkl'
@@ -29,12 +29,12 @@ mat_img_name = './ChallengeDB_release/Data/AllImages_release.mat'
 
 warnings.filterwarnings("ignore")
 parser = argparse.ArgumentParser()
-parser.add_argument("--vdir", help="video dir")
+parser.add_argument("--imgpath", help="image path")
 args = parser.parse_args()
-vdir = args.vdir
+imgpath = args.imgpath
 
 
-def load_feature(feature_model, video_path):
+def load_feature(feature_model, imgpath):
     normalize = get_imagenet_normalize()
     img_transform = transforms.Compose([transforms.ToTensor(), normalize])
 
@@ -46,38 +46,34 @@ def load_feature(feature_model, video_path):
     crop_num_w = 5
     crop_num_h = 5
 
-    frames = skvideo.io.vreader(video_path)
-    for frame in frames:
-        if frame is None:
-            break
-        crop_imgs = np.array([])
-        crop_out = None
-        img = frame
-        img_w, img_h = img.shape[1], img.shape[0]
-        crop_box = get_crop_box(
-            img_w, img_h, crop_w, crop_h, crop_num_w, crop_num_h)
-        for box in crop_box:
-            w, h, w2, h2 = box
-            w = int(w)
-            h = int(h)
-            w2 = int(w2)
-            h2 = int(h2)
-            part = img[h:h2, w:w2]
-            crop_imgs = np.append(
-                crop_imgs, img_transform(part))
-        crop_imgs = crop_imgs.reshape(crop_num_w * crop_num_h, 3, 224, 224)
-        crop_imgs = torch.from_numpy(crop_imgs).float()
-        crop_out = feature_model.extract_feature(crop_imgs)
-        crop_out = np.average(crop_out, axis=0)
+    crop_imgs = np.array([])
+    crop_out = None
+    img = cv2.imread(imgpath)
+    img_w, img_h = img.shape[1], img.shape[0]
+    crop_box = get_crop_box(
+        img_w, img_h, crop_w, crop_h, crop_num_w, crop_num_h)
+    for box in crop_box:
+        w, h, w2, h2 = box
+        w = int(w)
+        h = int(h)
+        w2 = int(w2)
+        h2 = int(h2)
+        part = img[h:h2, w:w2]
+        crop_imgs = np.append(
+            crop_imgs, img_transform(part))
+    crop_imgs = crop_imgs.reshape(crop_num_w * crop_num_h, 3, 224, 224)
+    crop_imgs = torch.from_numpy(crop_imgs).float()
+    crop_out = feature_model.extract_feature(crop_imgs)
+    crop_out = np.average(crop_out, axis=0)
 
-        X = np.append(X, crop_out)
+    X = np.append(X, crop_out)
     X = X.reshape(-1, 4096)
 
     return X
 
 
 feature_model = FeatureMode(feature_mode_path)
-data_x = load_feature(feature_model, vdir)
+data_x = load_feature(feature_model, imgpath)
 
 scaler_x = preprocessing.StandardScaler().fit(data_x)
 joblib.dump(scaler_x, svr_process_path)
