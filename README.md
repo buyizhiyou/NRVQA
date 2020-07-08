@@ -18,20 +18,20 @@
 ### brisque
 *high score has high quality*
 ```
-python test.py --mode brisque --path=imgs/origin.jpg
-python test.py --mode brisque --path=imgs/compression.jpg
+python test.py --mode brisque --path=imgs/origin.jpeg
+python test.py --mode brisque --path=imgs/compression.jpeg
 ```
 ### niqe
 *high score has low quality*
 ```
-python test.py --mode niqe --path=imgs/origin.jpg
-python test.py --mode niqe --path=imgs/compression.jpg
+python test.py --mode niqe --path=imgs/origin.jpeg
+python test.py --mode niqe --path=imgs/compression.jpeg
 ```
 ### piqe
 *high score has low quality*
 ```
-python test.py --mode piqe --path=imgs/origin.jpg
-python test.py --mode piqe --path=imgs/compression.jpg
+python test.py --mode piqe --path=imgs/origin.jpeg
+python test.py --mode piqe --path=imgs/compression.jpeg
 ```
   
 
