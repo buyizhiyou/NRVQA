@@ -16,7 +16,7 @@ class sleeqQA():
     Paper:A No-Reference Video Quality Predictor For Compression And Scaling Artifacts
     '''
 
-    def __init__(self, patch_size=72, n_threshold=0.2, ksize=3, Bsigma=1):
+    def __init__(self, patch_size=72, n_threshold=0.2, ksize=7, Bsigma=1):
         self.patch_size = patch_size  # patch size
         self.n_threshold = n_threshold  # percentile threshold
         self.ksize = ksize  # gaussblur  kernel size
@@ -29,31 +29,29 @@ class sleeqQA():
         cap = cv2.VideoCapture(filename)
         scores = []
         weights = []
-        i = 0
+        first = True
         while 1:
             ret, frame = cap.read()
             if frame is None:
                 break
             # consider  luminance component of every frame
             nextY = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)[:, :, 0]
-            if i == 0:
-                i += 1
+            nextY = nextY.astype(np.float32)
+            if first:
+                first = False
                 Y = nextY
                 continue
-            nextY2 = nextY.astype(np.int16)
-            Y2 = Y.astype(np.int16)
-            Ydiff = np.abs(nextY2-Y2)
-            frame_scores, frame_weights = self.__sleeq(Y, Ydiff)
+            Ydiff = nextY-Y  # ?????
+            frame_scores, frame_weights = self.sleeq(Y, Ydiff)
             scores.extend(frame_scores)
             weights.extend(frame_weights)
             Y = nextY
-            i += 1
 
-        score = self.__spatial_temporal_pooling(scores, weights)
+        score = self.spatial_temporal_pooling(scores, weights)
 
         return round(score, 3)
 
-    def __sleeq(self, frame, framediff):
+    def sleeq(self, frame, framediff):
         h, w = frame.shape
         psize = self.patch_size
         N = w//psize
@@ -75,7 +73,7 @@ class sleeqQA():
 
         return scores, weights
 
-    def __spatial_temporal_pooling(self, scores, weights):
+    def spatial_temporal_pooling(self, scores, weights):
         res = list(zip(weights, scores))
         res = sorted(res)
         scores_order = list(zip(*res))[1]
@@ -96,7 +94,8 @@ class sleeqQA():
         return abs(alpha-alpha_blur), abs(var-var_blur)
 
     def __get_Q_weight(self, patch, patchdiff):
-        mp = abs(np.mean(patchdiff/255.0))
+        # mp = np.abs(np.mean(patchdiff/255.0))
+        mp = np.mean(np.abs(patchdiff)/255.0)  # ??
         alpha_s, delta_var = self.__get_alpha_sigma(patch)
         if mp < 0.001:
             return alpha_s, delta_var
@@ -119,6 +118,9 @@ class sleeqQA():
         nr_gam = 1/prec_gammas
         sigma = np.var(mscn)
         E = np.mean(np.abs(mscn))
+        # if(E == 0):
+        #     import pdb
+        #     pdb.set_trace()
         rho = sigma/E**2
         pos = np.argmin(np.abs(nr_gam - rho))
 
