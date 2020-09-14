@@ -40,4 +40,4 @@ python test.py --mode piqe --path=imgs/compression.jpeg
 
 ## 相关论文[reference papers](https://github.com/buyizhiyou/papers/tree/master/VQA_IQA)
 
-## Thanks for your start!
+## Thanks for your star!
