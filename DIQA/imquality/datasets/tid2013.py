@@ -19,11 +19,11 @@ CITATION = r"""
 }
 """
 DESCRIPTION = """
-The TID2013 contains 25 reference images and 3000 distorted images 
-(25 reference images x 24 types of distortions x 5 levels of distortions). 
-Reference images are obtained by cropping from Kodak Lossless True Color Image Suite. 
-All images are saved in database in Bitmap format without any compression. File names are 
-organized in such a manner that they indicate a number of the reference image, 
+The TID2013 contains 25 reference images and 3000 distorted images
+(25 reference images x 24 types of distortions x 5 levels of distortions).
+Reference images are obtained by cropping from Kodak Lossless True Color Image Suite.
+All images are saved in database in Bitmap format without any compression. File names are
+organized in such a manner that they indicate a number of the reference image,
 then a number of distortion's type, and, finally, a number of distortion's level: "iXX_YY_Z.bmp".
 """
 URLS = ["http://www.ponomarenko.info/tid2013.htm"]

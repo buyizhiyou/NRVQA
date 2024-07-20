@@ -2,22 +2,23 @@
 # Author: Dingquan Li
 # Email: dingquanli AT pku DOT edu DOT cn
 # Date: 2018/3/27
-# 
+#
 # CUDA_VISIBLE_DEVICES=0 python CNNfeatures.py --database=KoNViD-1k --frame_batch_size=64
 # CUDA_VISIBLE_DEVICES=1 python CNNfeatures.py --database=CVD2014 --frame_batch_size=32
 # CUDA_VISIBLE_DEVICES=0 python CNNfeatures.py --database=LIVE-Qualcomm --frame_batch_size=8
 
-import torch
-from torchvision import transforms, models
-import torch.nn as nn
-from torch.utils.data import Dataset
-import skvideo.io
-from PIL import Image
 import os
-import h5py
-import numpy as np
 import random
 from argparse import ArgumentParser
+
+import h5py
+import numpy as np
+import skvideo.io
+import torch
+from PIL import Image
+from torch import nn
+from torch.utils.data import Dataset
+from torchvision import models, transforms
 
 
 class VideoDataset(Dataset):

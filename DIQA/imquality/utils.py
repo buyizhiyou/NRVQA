@@ -1,8 +1,8 @@
 import typing
 from os import PathLike
 
-import PIL.Image
 import numpy
+import PIL.Image
 
 
 def load_image(path: typing.Union[bytes, str, PathLike]):

@@ -1,6 +1,5 @@
-import numpy as np
 import cv2
-from scipy.special import gamma
+import numpy as np
 
 
 def calculate_mscn(dis_image):
@@ -110,7 +109,7 @@ def piqe(im):
     blockImpairedThreshold = 0.1  # Threshold identify blocks having noticeable artifacts
     windowSize = 6  # Considered segment size in a block edge.
     nSegments = blockSize-windowSize+1  # Number of segments for each block edge
-    distBlockScores = 0  # Accumulation of distorted block scores
+    # distBlockScores = 0  # Accumulation of distorted block scores
     NHSA = 0  # Number of high spatial active blocks.
 
     # pad if size is not divisible by blockSize
@@ -127,7 +126,7 @@ def piqe(im):
         if columnsPad > 0:
             columnsPad = blockSize-columnsPad
         isPadded = True
-        padSize = [rowsPad, columnsPad]
+        # padSize = [rowsPad, columnsPad]
     im = np.pad(im, ((0, rowsPad), (0, columnsPad)), 'edge')
 
     # Normalize image to zero mean and ~unit std

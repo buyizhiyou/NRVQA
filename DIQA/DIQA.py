@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-
 import tensorflow as tf
-import imquality
 from imquality import datasets
-from utils import *
-
+from utils import gaussian_filter, image_shape, rescale
 
 builder = datasets.LiveIQA(data_dir="./LIVE/")
 builder.download_and_prepare(download_dir="./LIVE/")

@@ -4,16 +4,15 @@ import typing
 import warnings
 from enum import Enum
 
-import PIL.Image
 import numpy
+import PIL.Image
 import scipy.signal
 import skimage.color
 import skimage.transform
-from libsvm import svmutil
-
 from imquality.models import MODELS_PATH
 from imquality.statistics import AsymmetricGeneralizedGaussian, gaussian_kernel2d
 from imquality.utils import pil2ndarray
+from libsvm import svmutil
 
 with open(os.path.join(MODELS_PATH, 'normalize.pickle'), 'rb') as file:
     scale_parameters = pickle.load(file)

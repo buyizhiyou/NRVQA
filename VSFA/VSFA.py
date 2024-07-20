@@ -7,19 +7,20 @@
 # tensorboard --logdir=logs --port=6006
 # CUDA_VISIBLE_DEVICES=1 python VSFA.py --database=KoNViD-1k --exp_id=0
 
-from argparse import ArgumentParser
+import datetime
 import os
-import h5py
-import torch
-from torch.optim import Adam, lr_scheduler
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset
-import numpy as np
 import random
+from argparse import ArgumentParser
+
+import h5py
+import numpy as np
+import torch
+import torch.nn.functional as F
 from scipy import stats
 from tensorboardX import SummaryWriter
-import datetime
+from torch import nn
+from torch.optim import Adam, lr_scheduler
+from torch.utils.data import Dataset
 
 
 class VQADataset(Dataset):
@@ -64,11 +65,11 @@ def TP(q, tau=12, beta=0.5):
     q = torch.unsqueeze(torch.t(q), 0)
     qm = -float('inf')*torch.ones((1, 1, tau-1)).to(q.device)
     qp = 10000.0 * torch.ones((1, 1, tau - 1)).to(q.device)  #
-    l = -F.max_pool1d(torch.cat((qm, -q), 2), tau, stride=1)
+    l_ = -F.max_pool1d(torch.cat((qm, -q), 2), tau, stride=1)
     m = F.avg_pool1d(torch.cat((q * torch.exp(-q), qp * torch.exp(-qp)), 2), tau, stride=1)
     n = F.avg_pool1d(torch.cat((torch.exp(-q), torch.exp(-qp)), 2), tau, stride=1)
     m = m / n
-    return beta * m + (1 - beta) * l
+    return beta * m + (1 - beta) * l_
 
 
 class VSFA(nn.Module):
@@ -86,7 +87,7 @@ class VSFA(nn.Module):
         q = self.q(outputs)  # frame quality
         score = torch.zeros_like(input_length, device=q.device)  #
         for i in range(input_length.shape[0]):  #
-            qi = q[i, :np.int(input_length[i].numpy())]
+            qi = q[i, :np.int32(input_length[i].numpy())]
             qi = TP(qi)
             score[i] = torch.mean(qi)  # video overall quality
         return score

@@ -1,0 +1,26 @@
+[tool.isort]
+py_version = 310
+profile = "black"
+line_length = 120
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+skip-string-normalization = true
+
+[tool.flake8]
+exclude = [
+    ".tox",
+    ".git",
+    "venv",
+]
+max_line_length = 120
+ignore = [
+    # line length
+    "E501",
+    # Black compat: black -S -l 120 -t py310
+    # line break before operator
+    "W503",
+    #  whitespace before :
+    "E203",
+]

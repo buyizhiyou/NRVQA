@@ -4,16 +4,17 @@
 # Email: dingquanli AT pku DOT edu DOT cn
 # Date: 2018/3/27
 #
-import torch
-from torchvision import transforms
-import skvideo.io
-from PIL import Image
-import numpy as np
-from VSFA import VSFA
-from CNNfeatures import get_features
-from argparse import ArgumentParser
+import os
 import time
+from argparse import ArgumentParser
 
+import skvideo.io
+import torch
+from CNNfeatures import get_features
+from PIL import Image
+from torchvision import transforms
+
+from VSFA import VSFA
 
 if __name__ == "__main__":
     parser = ArgumentParser(description='"Test Demo of VSFA')
@@ -31,6 +32,8 @@ if __name__ == "__main__":
     parser.add_argument('--frame_batch_size', type=int, default=32,
                         help='frame batch size for feature extraction (default: 32)')
     args = parser.parse_args()
+
+    assert os.path.exists(args.video_path), f'File not found: "{args.video_path}"'
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

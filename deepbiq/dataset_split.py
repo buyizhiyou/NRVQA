@@ -1,7 +1,8 @@
 import os
-import shutil
-import scipy.io as sio
 import random
+import shutil
+
+import scipy.io as sio
 
 
 class DataSetSplit(object):

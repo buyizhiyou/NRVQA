@@ -1,8 +1,8 @@
 import math
-import scipy.special
-import numpy as np
+
 import cv2
-import scipy as sp
+import numpy as np
+import scipy.special
 
 gamma_range = np.arange(0.2, 10, 0.001)
 a = scipy.special.gamma(2.0/gamma_range)
@@ -54,15 +54,6 @@ def aggd_features(imdata):
     # mean parameter
     N = (br - bl)*(gam2 / gam1)  # *aggdratio
     return (alpha, N, bl, br, left_mean_sqrt, right_mean_sqrt)
-
-
-def ggd_features(imdata):
-    nr_gam = 1/prec_gammas
-    sigma_sq = np.var(imdata)
-    E = np.mean(np.abs(imdata))
-    rho = sigma_sq/E**2
-    pos = np.argmin(np.abs(nr_gam - rho))
-    return gamma_range[pos], sigma_sq
 
 
 def paired_product(new_im):

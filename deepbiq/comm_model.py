@@ -1,11 +1,9 @@
-import torch
-import torch.nn as nn
-import torch.nn.parallel
-import torchvision.models as models
-from torchvision.models.alexnet import model_urls
-import torchvision.transforms as transforms
 import numpy as np
-import torch.backends.cudnn as cudnn
+import torch
+import torch.nn.parallel
+from torch import nn
+from torch.backends import cudnn
+from torchvision import models, transforms
 
 
 def weight_init(m):
@@ -18,7 +16,6 @@ def weight_init(m):
 
 
 def get_alexnet_pretrain_model():
-    model_urls['alexnet'] = model_urls['alexnet'].replace('https://', 'http://')
     print("=> using pre-trained model '{}'".format('alexnet'))
     model = models.__dict__['alexnet'](pretrained=True)
 

@@ -1,20 +1,10 @@
 import argparse
-import glob
-import json
-import os
 import warnings
 
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
-from natsort import natsorted
-from progressbar import *
-from scipy import io
-
-import imquality
 import tensorflow as tf
-from imquality import datasets
-from utils import *
+from utils import gaussian_filter, image_shape, rescale
 
 # ignore wanrnings
 warnings.filterwarnings("ignore")

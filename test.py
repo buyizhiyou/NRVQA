@@ -1,7 +1,5 @@
 import argparse
-import os
 import sys
-import pdb
 
 import cv2
 from joblib import load

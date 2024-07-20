@@ -1,18 +1,11 @@
-import glob
-import math
-import pickle
-
 import cv2
 import numpy as np
-import scipy as sp
-import scipy.ndimage
-from matplotlib import pyplot as plt
-from scipy import signal, special
+from scipy import special
 
 
 class sleeqQA():
     '''
-    sleeq,a new fully blind video  quality assessment method 
+    sleeq,a new fully blind video  quality assessment method
     Paper:A No-Reference Video Quality Predictor For Compression And Scaling Artifacts
     '''
 
@@ -24,7 +17,7 @@ class sleeqQA():
 
     def sleeq_video(self, filename):
         '''
-        evaluate score of a video 
+        evaluate score of a video
         '''
         cap = cv2.VideoCapture(filename)
         scores = []

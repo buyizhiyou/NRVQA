@@ -1,23 +1,15 @@
 import argparse
-import os
-import pdb
-import shutil
-import time
 import warnings
 
 import cv2
-import scipy.io as sio
-import skvideo.io
+import joblib
+import numpy as np
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-from PIL import Image
+from comm_model import FeatureMode, get_crop_box, get_imagenet_normalize
 from sklearn import preprocessing
-from sklearn.externals import joblib
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.svm import SVR
-
-from comm_model import *
+from torchvision import transforms
 
 svr_save_path = './trained_models/svr_mode.pkl'
 svr_process_path = './trained_models/svr_process.pkl'

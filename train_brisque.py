@@ -1,13 +1,10 @@
 import glob
-import pdb
-import pickle
 import time
 
 import cv2
 import numpy as np
-from joblib import dump, load
-from scipy import io
-from sklearn import metrics, preprocessing
+from joblib import dump
+from sklearn import metrics
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.svm import SVR
 from tqdm import tqdm

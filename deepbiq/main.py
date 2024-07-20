@@ -3,15 +3,14 @@ import os
 import shutil
 import time
 
-import torch.nn as nn
 import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
-import torchvision.datasets as datasets
-from comm_model import *
-from dataset_split import *
-
+from comm_model import get_alexnet_pretrain_model, get_imagenet_normalize
+from dataset_split import DataSetSplit
+from torch import nn
+from torch.backends import cudnn
+from torchvision import datasets, transforms
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('data', metavar='DIR',
@@ -132,7 +131,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         # measure data loading time
         data_time.update(time.time() - end)
 
-        target = target.cuda(async=True)
+        target = target.cuda(non_blocking=True)
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
 
@@ -176,7 +175,7 @@ def validate(val_loader, model, criterion):
 
     end = time.time()
     for i, (input, target) in enumerate(val_loader):
-        target = target.cuda(async=True)
+        target = target.cuda(non_blocking=True)
         input_var = torch.autograd.Variable(input, volatile=True)
         target_var = torch.autograd.Variable(target, volatile=True)
 

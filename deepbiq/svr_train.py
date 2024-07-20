@@ -1,20 +1,17 @@
-import argparse
 import os
-import shutil
-import time
 
+import joblib
+import numpy as np
+import scipy.io as sio
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
+from comm_model import FeatureMode, get_crop_box, get_imagenet_normalize
 from PIL import Image
-import scipy.io as sio
-from sklearn.svm import SVR
 from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
-from sklearn.externals import joblib
-from comm_model import *
-
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.svm import SVR
+from torchvision import transforms
 
 svr_save_path = './svr_mode.pkl'
 svr_process_path = './svr_process.pkl'
@@ -116,7 +113,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
